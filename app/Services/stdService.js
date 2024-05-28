@@ -8,6 +8,7 @@ async function getStdService(){
     var result = await stdDAO.getStdDAO()
     result = result.map((obj)=>{
         delete obj.pwd;
+        delete obj.confirmPwd;
         return obj;
     })
     return result;
