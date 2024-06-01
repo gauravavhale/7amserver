@@ -1,15 +1,18 @@
 var express = require('express');
 var router = express.Router();
 var stdService = require('../Services/stdService')
+var jwt = require('jsonwebtoken')
+var verifyToken = require ('../Common/verifyToken')
 
-router.get('/get-std',async function(req,res,next){
+router.get('/get-std',verifyToken,async function(req,res,next){
     try{
     var result = await stdService.getStdService()
     res.send(result)
     } catch(e){
     res.status(500).send(e);
    }
-}) 
+ }
+),
 
 router.post('/reg-std',async function(req,res,next){
     try{
@@ -21,7 +24,7 @@ router.post('/reg-std',async function(req,res,next){
     }
 })
 
-router.get('/get-std-by-id',async function(req,res,next){
+router.get('/get-std-by-id', verifyToken,async function(req,res,next){
     try{
         var id = req.query.id;
         console.log(id)
@@ -32,7 +35,7 @@ router.get('/get-std-by-id',async function(req,res,next){
         }
 }) 
 
-router.put('/std-update',async function(req,res,next){
+router.put('/std-update', verifyToken,async function(req,res,next){
     try{
     var id = req.query.id;
     var data = req.body.data;
@@ -44,7 +47,7 @@ router.put('/std-update',async function(req,res,next){
     }
 }) 
 
-router.delete('/std-del/:id',async function(req,res,next){
+router.delete('/std-del/:id', verifyToken,async function(req,res,next){
     try{
      var id = req.params.id;
      var result = await stdService.deleteStdService(id)
